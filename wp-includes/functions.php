@@ -7465,7 +7465,7 @@ function check_coupon(){
 	if(empty($_COOKIE['coupon']) && $url != 'coupon' && get_post_type() === 'page')
 	{
 		wp_redirect( '/coupon', 301 );
-	}else if(!empty($_COOKIE['coupon']) && $url === 'coupon')
+	}else if(!empty($_COOKIE['coupon']) && $url === 'coupon' && $_COOKIE['coupon_status'] != "Error")
 	{
 		wp_redirect( '/', 301 );
 	}
@@ -7534,9 +7534,9 @@ function the_custom_login_css() {
 	wp_enqueue_style ( 'my_css' );
 }
 
-function get_home_path() {
-    $home    = set_url_scheme( get_option( 'home' ), 'http' );
-    $siteurl = set_url_scheme( get_option( 'siteurl' ), 'http' );
+function custom_get_home_path() {
+    $home    = set_url_scheme( get_option( 'home' ), 'https' );
+    $siteurl = set_url_scheme( get_option( 'siteurl' ), 'https' );
 
     if ( ! empty( $home ) && 0 !== strcasecmp( $home, $siteurl ) ) {
         $wp_path_rel_to_home = str_ireplace( $home, '', $siteurl ); /* $siteurl - $home */
@@ -7549,3 +7549,5 @@ function get_home_path() {
 
     return str_replace( '\\', '/', $home_path );
 }
+
+require_once('custom_function.php');
