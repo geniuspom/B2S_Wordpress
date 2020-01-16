@@ -7522,3 +7522,30 @@ add_action( 'wp_enqueue_scripts', 'my_custom_script_load' );
 function my_custom_script_load(){
   wp_enqueue_script( 'my-custom-script', get_stylesheet_directory_uri() . '/assets/js/custom-scripts.js', array( 'jquery' ) );
 }
+
+add_action('login_head', 'the_custom_login_css');
+function the_custom_login_css() {
+
+	//print_r(plugin_dir_path( __FILE__ ));
+
+	$my_css_ver = date("ymd-Gis", filemtime( plugin_dir_path( __FILE__ ) . 'css/custom_style.css' ));
+
+	wp_register_style( 'my_css',  '/wp-includes/css/custom_style.css', false,   $my_css_ver );
+	wp_enqueue_style ( 'my_css' );
+}
+
+function get_home_path() {
+    $home    = set_url_scheme( get_option( 'home' ), 'http' );
+    $siteurl = set_url_scheme( get_option( 'siteurl' ), 'http' );
+
+    if ( ! empty( $home ) && 0 !== strcasecmp( $home, $siteurl ) ) {
+        $wp_path_rel_to_home = str_ireplace( $home, '', $siteurl ); /* $siteurl - $home */
+        $pos = strripos( str_replace( '\\', '/', $_SERVER['SCRIPT_FILENAME'] ), trailingslashit( $wp_path_rel_to_home ) );
+        $home_path = substr( $_SERVER['SCRIPT_FILENAME'], 0, $pos );
+        $home_path = trailingslashit( $home_path );
+    } else {
+        $home_path = ABSPATH;
+    }
+
+    return str_replace( '\\', '/', $home_path );
+}

@@ -204,7 +204,14 @@ function login_header( $title = 'Log In', $message = '', $wp_error = null ) {
 
 	?>
 	<div id="login">
-		<h1><a href="<?php echo esc_url( $login_header_url ); ?>"><?php echo $login_header_text; ?></a></h1>
+		<!--<h1><a href="#<?php //echo esc_url( $login_header_url ); ?>"><img src='<?php //echo $login_header_text; ?>' /></a></h1>-->
+		<div class="Login_Logo"><img src="<?php
+
+			$custom_logo_id = get_theme_mod( 'custom_logo' );
+			$image = wp_get_attachment_image_src( $custom_logo_id , 'full' );
+			echo $image[0];
+
+		?>" /></div>
 	<?php
 	/**
 	 * Filters the message to display above the login form.
@@ -277,14 +284,14 @@ function login_footer( $input_id = '' ) {
 	// Don't allow interim logins to navigate away from the page.
 	if ( ! $interim_login ) {
 		?>
-		<p id="backtoblog"><a href="<?php echo esc_url( home_url( '/' ) ); ?>">
+		<!--<p id="backtoblog"><a href="<?php //echo esc_url( home_url( '/' ) ); ?>">-->
 		<?php
 
 		/* translators: %s: Site title. */
-		printf( _x( '&larr; Back to %s', 'site' ), get_bloginfo( 'title', 'display' ) );
+		//printf( _x( '&larr; Back to %s', 'site' ), get_bloginfo( 'title', 'display' ) );
 
 		?>
-		</a></p>
+		<!--</a></p>-->
 		<?php
 
 		the_privacy_policy_link( '<div class="privacy-policy-page-link">', '</div>' );
@@ -830,7 +837,7 @@ switch ( $action ) {
 		 */
 		do_action( 'lost_password', $errors );
 
-		login_header( __( 'Lost Password' ), '<p class="message">' . __( 'Please enter your username or email address. You will receive a link to create a new password via email.' ) . '</p>', $errors );
+		login_header( __( 'Lost Password' ), '<p class="message">' . __( 'กรุณากรอกชื่อผู้ใช้งาน หรืออีเมลของคุณ คุณจะได้รับลิงค์สำหรับสร้างรหัสผ่านใหม่ทางอีเมล' ) . '</p>', $errors );
 
 		$user_login = '';
 
@@ -842,7 +849,7 @@ switch ( $action ) {
 
 		<form name="lostpasswordform" id="lostpasswordform" action="<?php echo esc_url( network_site_url( 'wp-login.php?action=lostpassword', 'login_post' ) ); ?>" method="post">
 			<p>
-				<label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>
+				<label for="user_login"><?php _e( 'ชื่อผู้ใช้งาน หรือ อีเมล' ); ?></label>
 				<input type="text" name="user_login" id="user_login" class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" />
 			</p>
 			<?php
@@ -857,16 +864,16 @@ switch ( $action ) {
 			?>
 			<input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ); ?>" />
 			<p class="submit">
-				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Get New Password' ); ?>" />
+				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'สร้างรหัสผ่านใหม่' ); ?>" />
 			</p>
 		</form>
 
 		<p id="nav">
-			<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e( 'Log in' ); ?></a>
+			<a href="<?php echo esc_url( wp_login_url() ); ?>"><?php _e( 'ลงชื่อเข้าใช้งาน' ); ?></a>
 			<?php
 
 			if ( get_option( 'users_can_register' ) ) {
-				$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
+				$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'สมัครสมาชิก' ) );
 
 				echo esc_html( $login_link_separator );
 
@@ -1353,12 +1360,12 @@ switch ( $action ) {
 
 		<form name="loginform" id="loginform" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>" method="post">
 			<p>
-				<label for="user_login"><?php _e( 'Username or Email Address' ); ?></label>
+				<label for="user_login"><?php _e( 'ชื่อผู้ใช้งาน หรือ อีเมล' ); ?></label>
 				<input type="text" name="log" id="user_login"<?php echo $aria_describedby_error; ?> class="input" value="<?php echo esc_attr( $user_login ); ?>" size="20" autocapitalize="off" />
 			</p>
 
 			<div class="user-pass-wrap">
-				<label for="user_pass"><?php _e( 'Password' ); ?></label>
+				<label for="user_pass"><?php _e( 'รหัสผ่าน' ); ?></label>
 				<div class="wp-pwd">
 					<input type="password" name="pwd" id="user_pass"<?php echo $aria_describedby_error; ?> class="input password-input" value="" size="20" />
 					<button type="button" class="button button-secondary wp-hide-pw hide-if-no-js" data-toggle="0" aria-label="<?php esc_attr_e( 'Show password' ); ?>">
@@ -1376,9 +1383,9 @@ switch ( $action ) {
 			do_action( 'login_form' );
 
 			?>
-			<p class="forgetmenot"><input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> /> <label for="rememberme"><?php esc_html_e( 'Remember Me' ); ?></label></p>
+			<p class="forgetmenot"><input name="rememberme" type="checkbox" id="rememberme" value="forever" <?php checked( $rememberme ); ?> /> <label for="rememberme"><?php esc_html_e( 'จดจำฉันในระบบ' ); ?></label></p>
 			<p class="submit">
-				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'Log In' ); ?>" />
+				<input type="submit" name="wp-submit" id="wp-submit" class="button button-primary button-large" value="<?php esc_attr_e( 'ลงชื่อเข้าใช้งาน' ); ?>" />
 				<?php
 
 				if ( $interim_login ) {
@@ -1411,7 +1418,7 @@ switch ( $action ) {
 
 				if ( ! isset( $_GET['checkemail'] ) || ! in_array( $_GET['checkemail'], array( 'confirm', 'newpass' ), true ) ) {
 					if ( get_option( 'users_can_register' ) ) {
-						$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'Register' ) );
+						$registration_url = sprintf( '<a href="%s">%s</a>', esc_url( wp_registration_url() ), __( 'สมัครสมาชิก' ) );
 
 						/** This filter is documented in wp-includes/general-template.php */
 						echo apply_filters( 'register', $registration_url );
@@ -1420,7 +1427,7 @@ switch ( $action ) {
 					}
 
 					?>
-					<a href="<?php echo esc_url( wp_lostpassword_url() ); ?>"><?php _e( 'Lost your password?' ); ?></a>
+					<a href="<?php echo esc_url( wp_lostpassword_url() ) ?>"><?php _e( 'ลืมรหัสผ่าน?' ); ?></a>
 					<?php
 				}
 
